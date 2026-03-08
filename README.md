@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Placement Tracker - Complete Setup & Configuration
 
 ## Project Structure
@@ -321,3 +322,6 @@ mysql -u root -p
 ---
 
 Happy coding! 🚀 Your placement preparation journey starts here!
+=======
+# PLACE-MENTOR
+>>>>>>> 7e39001797185aeb82c355d4d336a2c290d97871
