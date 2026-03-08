@@ -1,0 +1,46 @@
+/* stylelint-disable */
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition;
+}
+
+.btn-secondary {
+  @apply bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6;
+}
+
+.badge-success {
+  @apply inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm;
+}
+
+.badge-warning {
+  @apply inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm;
+}
+
+.badge-danger {
+  @apply inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm;
+}
+/* stylelint-enable */

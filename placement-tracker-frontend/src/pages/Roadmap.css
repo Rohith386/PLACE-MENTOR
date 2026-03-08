@@ -1,0 +1,18 @@
+.roadmap-category {
+  transition: all 0.3s ease;
+}
+
+.roadmap-topic {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
