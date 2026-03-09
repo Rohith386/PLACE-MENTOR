@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useAuth } from '@clerk/clerk-react'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api'
 
@@ -10,9 +9,22 @@ const api = axios.create({
 // Add Clerk ID to every request
 api.interceptors.request.use(async (config) => {
   try {
-    // Get Clerk user ID from localStorage or window object
-    const clerkUserId = localStorage.getItem('clerkUserId') || 'unknown'
-    config.headers['X-Clerk-ID'] = clerkUserId
+    // Get Clerk user ID from window.Clerk if available
+    if (window.Clerk) {
+      const userId = window.Clerk.user?.id
+      if (userId) {
+        config.headers['X-Clerk-ID'] = userId
+        return config
+      }
+    }
+    
+    // Fallback to localStorage if Clerk is not available
+    const clerkUserId = localStorage.getItem('clerkUserId')
+    if (clerkUserId) {
+      config.headers['X-Clerk-ID'] = clerkUserId
+    } else {
+      console.warn('Clerk ID not available')
+    }
   } catch (error) {
     console.error('Error adding Clerk ID:', error)
   }
@@ -21,6 +33,7 @@ api.interceptors.request.use(async (config) => {
 
 export const studentService = {
   getProfile: () => api.get('/students/profile'),
+  createProfile: (data) => api.post('/students/profile', data),
   updateProfile: (data) => api.put('/students/profile', data),
   getProgress: () => api.get('/students/progress'),
   updateProgress: (data) => api.post('/students/progress', data),
@@ -54,6 +67,12 @@ export const aiService = {
   getMotivationalMessage: () => api.get('/ai/motivation'),
   getDailyGoals: () => api.get('/ai/daily-goals'),
   planNextSteps: () => api.post('/ai/plan-next-steps'),
+}
+
+export const leetcodeService = {
+  getStats: () => api.get('/leetcode/stats'),
+  getStatsByUsername: (username) => api.get(`/leetcode/stats/${username}`),
+  updateUsername: (username) => api.post('/leetcode/username', { username }),
 }
 
 export default api

@@ -26,6 +26,10 @@ public class Student {
     private String branch;
     private Integer year;
     private String skillLevel;
+    
+    private String leetcodeUsername;
+    private String codeforcesUsername;
+    private String githubUsername;
 
     private Integer readinessScore = 0;
     private Integer topicsCompleted = 0;
