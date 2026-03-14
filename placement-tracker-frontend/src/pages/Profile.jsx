@@ -48,17 +48,29 @@ export default function Profile() {
     setLeetcodeError('')
     try {
       const response = await leetcodeService.getStats()
-      if (response.data.message && !response.data.username) {
+      console.log('LeetCode response:', response.data)
+      
+      if (response.data.errorMessage) {
+        setLeetcodeError(response.data.errorMessage)
+        setLeetcodeStats(null)
+      } else if (response.data.message && !response.data.username) {
         setLeetcodeError(response.data.message)
         setLeetcodeStats(null)
-      } else {
+      } else if (response.data.username) {
         setLeetcodeStats(response.data)
+        setLeetcodeError('')
+      } else {
+        setLeetcodeError('Invalid response format')
+        setLeetcodeStats(null)
       }
     } catch (error) {
       console.error('Failed to fetch LeetCode stats:', error)
-      setLeetcodeError(
-        error.response?.data?.error || 'Failed to fetch LeetCode stats'
-      )
+      const errorMsg = error.response?.data?.errorMessage || 
+                       error.response?.data?.error || 
+                       error.message ||
+                       'Failed to fetch LeetCode stats. Please check username and try again.'
+      setLeetcodeError(errorMsg)
+      setLeetcodeStats(null)
     } finally {
       setLeetcodeLoading(false)
     }
@@ -305,30 +317,40 @@ export default function Profile() {
           <>
             {leetcodeLoading ? (
               <div className="text-center py-8">
-                <p className="text-gray-600">Loading LeetCode stats...</p>
+                <div className="inline-block">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mb-3"></div>
+                </div>
+                <p className="text-gray-600">Loading LeetCode stats for @{profile?.leetcodeUsername}...</p>
               </div>
             ) : leetcodeError ? (
               <div className="text-center py-8">
-                <p className="text-red-600 mb-4">{leetcodeError}</p>
-                <button
-                  onClick={fetchLeetcodeStats}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                >
-                  Retry
-                </button>
+                <div className="mb-4 text-red-600">
+                  <p className="text-lg font-semibold mb-2">⚠️ Error Loading Stats</p>
+                  <p className="text-sm mb-4">{leetcodeError}</p>
+                  <p className="text-xs text-gray-500 mb-4">
+                    Make sure your LeetCode username is correct: <strong>{profile?.leetcodeUsername}</strong>
+                  </p>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={fetchLeetcodeStats}
+                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                  >
+                    Retry
+                  </button>
+                  <button
+                    onClick={() => setEditingLeetcode(true)}
+                    className="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition"
+                  >
+                    Change Username
+                  </button>
+                </div>
               </div>
             ) : leetcodeStats ? (
               <div className="space-y-6">
                 <div className="flex items-center gap-4 pb-6 border-b">
-                  {leetcodeStats.avatar && (
-                    <img
-                      src={leetcodeStats.avatar}
-                      alt="LeetCode Avatar"
-                      className="w-16 h-16 rounded-full"
-                    />
-                  )}
                   <div>
-                    <p className="text-sm text-gray-600">Username</p>
+                    <p className="text-sm text-gray-600">LeetCode Profile</p>
                     <p className="text-xl font-bold">{leetcodeStats.username}</p>
                     {leetcodeStats.rank && (
                       <p className="text-sm text-indigo-600 font-semibold">
@@ -392,7 +414,7 @@ export default function Profile() {
                     href={`https://leetcode.com/${leetcodeStats.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-semibold"
+                    className="inline-block px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-semibold transition"
                   >
                     View on LeetCode
                   </a>
