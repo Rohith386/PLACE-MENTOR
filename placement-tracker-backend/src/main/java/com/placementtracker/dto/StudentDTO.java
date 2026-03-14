@@ -16,6 +16,9 @@ public class StudentDTO {
     private String branch;
     private Integer year;
     private String skillLevel;
+    private String leetcodeUsername;
+    private String codeforcesUsername;
+    private String githubUsername;
     private Integer readinessScore;
     private Integer topicsCompleted;
     private Integer problemsSolved;

@@ -48,8 +48,9 @@ export const roadmapService = {
 export const companyService = {
   getAllCompanies: () => api.get('/companies'),
   getCompanyDetails: (companyId) => api.get(`/companies/${companyId}`),
-  addStudentCompany: (companyId) => api.post(`/students/companies/${companyId}`),
-  removeStudentCompany: (companyId) => api.delete(`/students/companies/${companyId}`),
+  getStudentCompanies: () => api.get('/companies/student/selected'),
+  addStudentCompany: (companyId) => api.post(`/companies/${companyId}/add`),
+  removeStudentCompany: (companyId) => api.delete(`/companies/${companyId}/remove`),
   getProbability: (companyId) => api.get(`/companies/${companyId}/probability`),
   getInterviewQuestions: (companyId) => api.get(`/companies/${companyId}/questions`),
 }

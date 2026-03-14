@@ -48,6 +48,9 @@ public class StudentService {
             s.setBranch(updatedDTO.getBranch());
             s.setYear(updatedDTO.getYear());
             s.setSkillLevel(updatedDTO.getSkillLevel());
+            s.setLeetcodeUsername(updatedDTO.getLeetcodeUsername());
+            s.setCodeforcesUsername(updatedDTO.getCodeforcesUsername());
+            s.setGithubUsername(updatedDTO.getGithubUsername());
             s.setUpdatedAt(LocalDateTime.now());
 
             Student savedStudent = studentRepository.save(s);
@@ -75,6 +78,9 @@ public class StudentService {
             student.getBranch(),
             student.getYear(),
             student.getSkillLevel(),
+            student.getLeetcodeUsername(),
+            student.getCodeforcesUsername(),
+            student.getGithubUsername(),
             student.getReadinessScore(),
             student.getTopicsCompleted(),
             student.getProblemsSolved(),

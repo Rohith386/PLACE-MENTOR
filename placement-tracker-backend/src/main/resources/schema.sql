@@ -15,6 +15,9 @@ CREATE TABLE students (
     branch VARCHAR(100),
     year INT,
     skill_level VARCHAR(50),
+    leetcode_username VARCHAR(100),
+    codeforces_username VARCHAR(100),
+    github_username VARCHAR(100),
     readiness_score INT DEFAULT 0,
     topics_completed INT DEFAULT 0,
     problems_solved INT DEFAULT 0,
@@ -76,13 +79,13 @@ CREATE TABLE mock_interviews (
 
 -- Insert Default Companies
 INSERT INTO companies (name, description, logo, base_probability, interview_pattern) VALUES
-('Google', 'Search and Advertising Giant', 'google.png', 45, 'Phone Screen -> DSA Round -> System Design -> HR'),
-('Amazon', 'E-commerce and Cloud Leader', 'amazon.png', 55, 'Online Assessment -> DSA Round -> System Design -> Bar Raiser'),
-('Microsoft', 'Cloud and Enterprise Software', 'microsoft.png', 50, 'Phone Screen -> DSA Round -> System Design -> HR'),
-('Facebook (Meta)', 'Social Media and VR', 'meta.png', 48, 'Phone Screen -> DSA Round -> System Design -> Behavioral'),
-('Apple', 'Hardware and Ecosystem', 'apple.png', 40, 'Phone Screen -> DSA Round -> System Design -> HR'),
-('Tesla', 'Electric Vehicles and Energy', 'tesla.png', 35, 'Technical Round -> Onsite -> Executive Interview'),
-('Netflix', 'Streaming and Entertainment', 'netflix.png', 42, 'Phone Screen -> DSA Round -> System Design -> HR'),
-('LinkedIn', 'Professional Network', 'linkedin.png', 50, 'Phone Screen -> DSA Round -> System Design -> HR');
+('Google', 'Search and Advertising Giant', 'google.png', 95, 'Phone Screen -> DSA Round -> System Design -> HR'),
+('Amazon', 'E-commerce and Cloud Leader', 'amazon.png', 86, 'Online Assessment -> DSA Round -> System Design -> Bar Raiser'),
+('Microsoft', 'Cloud and Enterprise Software', 'microsoft.png', 93, 'Phone Screen -> DSA Round -> System Design -> HR'),
+('Facebook (Meta)', 'Social Media and VR', 'meta.png', 93, 'Phone Screen -> DSA Round -> System Design -> Behavi-+6-oral'),
+('Apple', 'Hardware and Ecosystem', 'apple.png', 88, 'Phone Screen -> DSA Round -> System Design -> HR'),
+('Tesla', 'Electric Vehicles and Energy', 'tesla.png', 78, 'Technical Round -> Onsite -> Executive Interview'),
+('Netflix', 'Streaming and Entertainment', 'netflix.png', 89, 'Phone Screen -> DSA Round -> System Design -> HR'),
+('LinkedIn', 'Professional Network', 'linkedin.png', 90, 'Phone Screen -> DSA Round -> System Design -> HR');
 
 SELECT 'Database created successfully!' AS Status;
