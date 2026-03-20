@@ -327,22 +327,48 @@ export default function Profile() {
                 <div className="mb-4 text-red-600">
                   <p className="text-lg font-semibold mb-2">⚠️ Error Loading Stats</p>
                   <p className="text-sm mb-4">{leetcodeError}</p>
+                  <p className="text-xs text-gray-500 mb-2">
+                    Username: <strong>{profile?.leetcodeUsername}</strong>
+                  </p>
                   <p className="text-xs text-gray-500 mb-4">
-                    Make sure your LeetCode username is correct: <strong>{profile?.leetcodeUsername}</strong>
+                    The LeetCode API may be temporarily unavailable. Try again or use demo data.
                   </p>
                 </div>
-                <div className="flex gap-3 justify-center">
+                <div className="flex gap-3 justify-center flex-wrap">
                   <button
                     onClick={fetchLeetcodeStats}
                     className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                   >
-                    Retry
+                    🔄 Retry
+                  </button>
+                  <button
+                    onClick={() => {
+                      const demoStats = {
+                        username: profile?.leetcodeUsername,
+                        name: `User: ${profile?.leetcodeUsername}`,
+                        totalSolved: 150,
+                        totalQuestions: 2500,
+                        rank: 15000,
+                        easySolved: 80,
+                        easyTotal: 500,
+                        mediumSolved: 60,
+                        mediumTotal: 1200,
+                        hardSolved: 10,
+                        hardTotal: 800,
+                        acceptanceRate: 45.5
+                      }
+                      setLeetcodeStats(demoStats)
+                      setLeetcodeError('')
+                    }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  >
+                    📊 Demo Data
                   </button>
                   <button
                     onClick={() => setEditingLeetcode(true)}
                     className="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition"
                   >
-                    Change Username
+                    ✏️ Change Username
                   </button>
                 </div>
               </div>
