@@ -37,7 +37,7 @@ public class LeetCodeController {
                 Map<String, String> response = new HashMap<>();
                 response.put("error", "Student profile not found. Please create your profile first.");
                 response.put("message", "Visit /profile to set up your account");
-                return ResponseEntity.notFound().body(response);
+                return ResponseEntity.status(404).body(response);
             }
             
             String leetcodeUsername = student.get().getLeetcodeUsername();

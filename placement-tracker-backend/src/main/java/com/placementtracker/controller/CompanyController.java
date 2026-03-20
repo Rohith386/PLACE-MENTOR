@@ -49,7 +49,7 @@ public class CompanyController {
             if (student.isEmpty()) {
                 Map<String, String> response = new HashMap<>();
                 response.put("error", "Student not found");
-                return ResponseEntity.notFound().body(response);
+                return ResponseEntity.status(404).body(response);
             }
             
             List<CompanyDTO> companies = companyService.getStudentCompanies(student.get());
@@ -58,7 +58,7 @@ public class CompanyController {
             log.error("Error fetching student companies: ", e);
             Map<String, String> response = new HashMap<>();
             response.put("error", "Failed to fetch companies: " + e.getMessage());
-            return ResponseEntity.internalServerError().body(response);
+            return ResponseEntity.status(500).body(response);
         }
     }
 
@@ -74,7 +74,7 @@ public class CompanyController {
             if (student.isEmpty()) {
                 Map<String, String> response = new HashMap<>();
                 response.put("error", "Student not found");
-                return ResponseEntity.notFound().body(response);
+                return ResponseEntity.status(404).body(response);
             }
             
             companyService.addCompanyToStudent(student.get(), companyId);
@@ -102,7 +102,7 @@ public class CompanyController {
             if (student.isEmpty()) {
                 Map<String, String> response = new HashMap<>();
                 response.put("error", "Student not found");
-                return ResponseEntity.notFound().body(response);
+                return ResponseEntity.status(404).body(response);
             }
             
             companyService.removeCompanyFromStudent(student.get(), companyId);
