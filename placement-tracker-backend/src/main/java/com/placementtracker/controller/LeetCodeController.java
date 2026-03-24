@@ -4,6 +4,7 @@ import com.placementtracker.dto.LeetCodeStatsDTO;
 import com.placementtracker.entity.Student;
 import com.placementtracker.repository.StudentRepository;
 import com.placementtracker.service.LeetCodeService;
+import com.placementtracker.service.TopicStrengthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,12 @@ import java.util.Optional;
 public class LeetCodeController {
     
     private final LeetCodeService leetCodeService;
+    private final TopicStrengthService topicStrengthService;
     private final StudentRepository studentRepository;
     
-    public LeetCodeController(LeetCodeService leetCodeService, StudentRepository studentRepository) {
+    public LeetCodeController(LeetCodeService leetCodeService, TopicStrengthService topicStrengthService, StudentRepository studentRepository) {
         this.leetCodeService = leetCodeService;
+        this.topicStrengthService = topicStrengthService;
         this.studentRepository = studentRepository;
     }
     
@@ -51,6 +54,15 @@ public class LeetCodeController {
             if (stats.getErrorMessage() != null) {
                 return ResponseEntity.badRequest().body(stats);
             }
+            
+            // Sync problems solved to Student entity
+            Student s = student.get();
+            s.setProblemsSolved(stats.getTotalSolved());
+            studentRepository.save(s);
+            
+            // Auto-calculate topic strengths when fetching stats
+            topicStrengthService.calculateAndUpdateTopicStrengths(s, stats.getTotalSolved());
+            log.info("Synced {} problems solved and calculated topic strengths for student: {}", stats.getTotalSolved(), s.getId());
             
             return ResponseEntity.ok(stats);
         } catch (Exception e) {

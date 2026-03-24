@@ -7,6 +7,7 @@ import Roadmap from './pages/Roadmap'
 import DreamCompanies from './pages/DreamCompanies'
 import MockInterview from './pages/MockInterview'
 import Profile from './pages/Profile'
+import TopicStrength from './pages/TopicStrength'
 import './App.css'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/companies" element={<DreamCompanies />} />
             <Route path="/mock-interview" element={<MockInterview />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/topic-strength" element={<TopicStrength />} />
           </Routes>
         </Layout>
       </SignedIn>

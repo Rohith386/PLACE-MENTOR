@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { UserButton } from '@clerk/clerk-react'
-import { FiHome, FiMap, FiAward, FiMic, FiUser } from 'react-icons/fi'
+import { FiHome, FiMap, FiAward, FiMic, FiUser, FiBarChart2 } from 'react-icons/fi'
 import './Layout.css'
 
 export default function Layout({ children }) {
@@ -8,10 +8,11 @@ export default function Layout({ children }) {
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: FiHome },
-    { path: '/roadmap', label: 'My Roadmap', icon: FiMap },
-    { path: '/companies', label: 'Dream Companies', icon: FiAward },
-    { path: '/mock-interview', label: 'Mock Interview', icon: FiMic },
     { path: '/profile', label: 'Profile', icon: FiUser },
+    { path: '/topic-strength', label: 'Topic Strength', icon: FiBarChart2 },
+    { path: '/companies', label: 'Dream Companies', icon: FiAward },
+    { path: '/roadmap', label: 'My Roadmap', icon: FiMap },
+    { path: '/mock-interview', label: 'Mock Interview', icon: FiMic },
   ]
 
   return (

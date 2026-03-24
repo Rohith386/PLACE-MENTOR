@@ -76,4 +76,11 @@ export const leetcodeService = {
   updateUsername: (username) => api.post('/leetcode/username', { username }),
 }
 
+export const topicStrengthService = {
+  calculateTopicStrengths: (totalProblems = 0) => 
+    api.post('/topic-strength/calculate', {}, { params: { totalProblems } }),
+  getMyTopicStrengths: () => api.get('/topic-strength/my-strengths'),
+  getTopicStrengthsByCategory: (category) => api.get(`/topic-strength/by-category/${category}`),
+}
+
 export default api
