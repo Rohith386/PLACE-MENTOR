@@ -37,21 +37,21 @@ public class LeetCodeController {
         try {
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
-                Map<String, String> response = new HashMap<>();
-                response.put("error", "Student profile not found. Please create your profile first.");
-                response.put("message", "Visit /profile to set up your account");
-                return ResponseEntity.status(404).body(response);
+                LeetCodeStatsDTO error = new LeetCodeStatsDTO();
+                error.setErrorMessage("Student profile not found. Please create your profile first.");
+                return ResponseEntity.status(404).body(error);
             }
             
             String leetcodeUsername = student.get().getLeetcodeUsername();
             if (leetcodeUsername == null || leetcodeUsername.trim().isEmpty()) {
-                Map<String, String> response = new HashMap<>();
-                response.put("message", "LeetCode username not set");
-                return ResponseEntity.ok(response);
+                LeetCodeStatsDTO response = new LeetCodeStatsDTO();
+                response.setErrorMessage("LeetCode username not set");
+                return ResponseEntity.status(400).body(response);
             }
             
             LeetCodeStatsDTO stats = leetCodeService.getLeetCodeStats(leetcodeUsername);
             if (stats.getErrorMessage() != null) {
+                log.warn("LeetCode API error for user {}: {}", leetcodeUsername, stats.getErrorMessage());
                 return ResponseEntity.badRequest().body(stats);
             }
             
@@ -67,9 +67,9 @@ public class LeetCodeController {
             return ResponseEntity.ok(stats);
         } catch (Exception e) {
             log.error("Error fetching LeetCode stats: ", e);
-            Map<String, String> response = new HashMap<>();
-            response.put("error", "Internal server error: " + e.getMessage());
-            return ResponseEntity.internalServerError().body(response);
+            LeetCodeStatsDTO error = new LeetCodeStatsDTO();
+            error.setErrorMessage("Internal server error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body(error);
         }
     }
     

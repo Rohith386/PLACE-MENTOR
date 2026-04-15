@@ -50,13 +50,19 @@ export default function Profile() {
       const response = await leetcodeService.getStats()
       console.log('LeetCode response:', response.data)
       
+      // Check for error message in response
       if (response.data.errorMessage) {
         setLeetcodeError(response.data.errorMessage)
         setLeetcodeStats(null)
-      } else if (response.data.message && !response.data.username) {
+      } else if (response.data.error) {
+        setLeetcodeError(response.data.error)
+        setLeetcodeStats(null)
+      } else if (response.data.message && !response.data.totalSolved) {
+        // Message without actual data means error
         setLeetcodeError(response.data.message)
         setLeetcodeStats(null)
       } else if (response.data.username) {
+        // Valid data returned
         setLeetcodeStats(response.data)
         setLeetcodeError('')
       } else {
@@ -65,10 +71,18 @@ export default function Profile() {
       }
     } catch (error) {
       console.error('Failed to fetch LeetCode stats:', error)
-      const errorMsg = error.response?.data?.errorMessage || 
-                       error.response?.data?.error || 
-                       error.message ||
-                       'Failed to fetch LeetCode stats. Please check username and try again.'
+      let errorMsg = 'Failed to fetch LeetCode stats. Please try again.'
+      
+      if (error.response?.status === 400) {
+        errorMsg = error.response?.data?.errorMessage || 'Invalid LeetCode username. Please verify and try again.'
+      } else if (error.response?.status === 404) {
+        errorMsg = error.response?.data?.errorMessage || 'Profile not found. Please set your LeetCode username.'
+      } else if (error.response?.data?.errorMessage) {
+        errorMsg = error.response.data.errorMessage
+      } else if (error.response?.data?.error) {
+        errorMsg = error.response.data.error
+      }
+      
       setLeetcodeError(errorMsg)
       setLeetcodeStats(null)
     } finally {
