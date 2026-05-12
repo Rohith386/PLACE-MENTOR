@@ -43,6 +43,13 @@ export const roadmapService = {
   getRoadmap: () => api.get('/roadmap'),
   generateRoadmap: (preferences) => api.post('/roadmap/generate', preferences),
   updateRoadmapProgress: (topicId, status) => api.put(`/roadmap/${topicId}`, { status }),
+  // Domain-based roadmap methods
+  getDomainRoadmap: (domain) => api.get(`/roadmap/domain/${domain}`),
+  setStudentDomain: (domain) => api.post('/roadmap/set-domain', null, { params: { domain } }),
+  getCurrentDomain: () => api.get('/roadmap/current-domain'),
+  getAvailableDomains: () => api.get('/roadmap/available-domains'),
+  updateTopicStatus: (topicId, status) => api.put(`/roadmap/topic/${topicId}/status`, null, { params: { status } }),
+  getRoadmapProgress: () => api.get('/roadmap/progress'),
 }
 
 export const companyService = {

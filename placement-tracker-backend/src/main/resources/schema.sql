@@ -22,10 +22,12 @@ CREATE TABLE students (
     topics_completed INT DEFAULT 0,
     problems_solved INT DEFAULT 0,
     mock_interviews INT DEFAULT 0,
+    domain VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX (clerk_id),
-    INDEX (email)
+    INDEX (email),
+    INDEX (domain)
 );
 
 -- Companies Table

@@ -36,6 +36,8 @@ public class Student {
     private Integer problemsSolved = 0;
     private Integer mockInterviews = 0;
 
+    private String domain; // fullstack, ml, cyber-security, cloud, devops, etc.
+
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 }

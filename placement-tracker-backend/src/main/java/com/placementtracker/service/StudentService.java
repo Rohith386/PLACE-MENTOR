@@ -51,6 +51,7 @@ public class StudentService {
             s.setLeetcodeUsername(updatedDTO.getLeetcodeUsername());
             s.setCodeforcesUsername(updatedDTO.getCodeforcesUsername());
             s.setGithubUsername(updatedDTO.getGithubUsername());
+            s.setDomain(updatedDTO.getDomain());
             s.setUpdatedAt(LocalDateTime.now());
 
             Student savedStudent = studentRepository.save(s);
@@ -85,6 +86,7 @@ public class StudentService {
             student.getTopicsCompleted(),
             student.getProblemsSolved(),
             student.getMockInterviews(),
+            student.getDomain(),
             student.getCreatedAt()
         );
     }

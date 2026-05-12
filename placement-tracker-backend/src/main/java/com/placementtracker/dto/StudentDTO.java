@@ -23,5 +23,6 @@ public class StudentDTO {
     private Integer topicsCompleted;
     private Integer problemsSolved;
     private Integer mockInterviews;
+    private String domain;
     private LocalDateTime createdAt;
 }

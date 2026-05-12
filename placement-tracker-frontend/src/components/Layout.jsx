@@ -19,7 +19,7 @@ export default function Layout({ children }) {
     <div className="app-container">
       <aside className="sidebar">
         <div className="sidebar-header p-6">
-          <h1 className="text-2xl font-bold text-indigo-600">PlacementAI</h1>
+          <h1 className="text-2xl font-bold text-indigo-600">Placementor</h1>
           <p className="text-sm text-gray-500 mt-1">Your Career Mentor</p>
         </div>
 

@@ -9,8 +9,8 @@
 
 .sidebar-header {
   border-bottom: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: white;
+  background: linear-gradient(135deg, #6366f1, #e446a7);
+  color: rgb(223, 9, 9);
 }
 
 .sidebar-nav {
