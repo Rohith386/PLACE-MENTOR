@@ -30,6 +30,9 @@ public class CompanyService {
     }
 
     public CompanyDTO getCompany(Long companyId) {
+        if (companyId == null) {
+            return null;
+        }
         return companyRepository.findById(companyId)
             .map(this::convertToDTO)
             .orElse(null);
@@ -48,6 +51,9 @@ public class CompanyService {
      * Add a company to student's dream list
      */
     public void addCompanyToStudent(Student student, Long companyId) {
+        if (companyId == null || student == null) {
+            return;
+        }
         Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             // Check if already added
@@ -67,6 +73,9 @@ public class CompanyService {
      * Remove a company from student's dream list
      */
     public void removeCompanyFromStudent(Student student, Long companyId) {
+        if (companyId == null || student == null) {
+            return;
+        }
         Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             studentCompanyRepository.deleteByStudentAndCompany(student, company.get());
