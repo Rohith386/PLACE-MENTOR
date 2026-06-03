@@ -79,6 +79,37 @@ CREATE TABLE mock_interviews (
     INDEX (student_id, type)
 );
 
+-- Mock Interview Questions Table
+CREATE TABLE mock_interview_questions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    interview_id BIGINT NOT NULL,
+    question_number INT,
+    type VARCHAR(50),
+    question TEXT NOT NULL,
+    context TEXT,
+    expected_answer TEXT,
+    difficulty INT,
+    created_at BIGINT,
+    FOREIGN KEY (interview_id) REFERENCES mock_interviews(id) ON DELETE CASCADE,
+    INDEX (interview_id, type)
+);
+
+-- Mock Interview Answers Table
+CREATE TABLE mock_interview_answers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    question_id BIGINT NOT NULL,
+    interview_id BIGINT NOT NULL,
+    student_answer TEXT,
+    score_obtained INT DEFAULT 0,
+    ai_analysis TEXT,
+    suggestions TEXT,
+    submitted_at BIGINT,
+    FOREIGN KEY (question_id) REFERENCES mock_interview_questions(id) ON DELETE CASCADE,
+    FOREIGN KEY (interview_id) REFERENCES mock_interviews(id) ON DELETE CASCADE,
+    INDEX (interview_id),
+    INDEX (question_id)
+);
+
 -- Insert Default Companies
 INSERT INTO companies (name, description, logo, base_probability, interview_pattern) VALUES
 ('Google', 'Search and Advertising Giant', 'google.png', 95, 'Phone Screen -> DSA Round -> System Design -> HR'),
