@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "mock_interview_answers")
@@ -28,5 +29,6 @@ public class MockInterviewAnswer {
     private String aiAnalysis;
     private String suggestions;
 
-    private Long submittedAt = System.currentTimeMillis();
+    @Column(name = "submitted_at")
+    private LocalDateTime submittedAt;
 }

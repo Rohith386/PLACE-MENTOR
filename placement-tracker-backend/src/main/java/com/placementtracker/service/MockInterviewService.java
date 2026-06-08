@@ -5,6 +5,7 @@ import com.placementtracker.entity.*;
 import com.placementtracker.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -98,8 +99,14 @@ public class MockInterviewService {
     /**
      * Submit answer for a question
      */
+    @Transactional
     public MockInterviewAnswerDTO submitAnswer(String clerkId, Long interviewId, Long questionId, String studentAnswer) {
         log.info("Submitting answer for interview: {}, question: {}", interviewId, questionId);
+
+        Optional<Student> studentOpt = studentRepository.findByClerkId(clerkId);
+        if (studentOpt.isEmpty()) {
+            throw new RuntimeException("Student not found");
+        }
 
         Optional<MockInterview> interviewOpt = mockInterviewRepository.findById(interviewId);
         Optional<MockInterviewQuestion> questionOpt = questionRepository.findById(questionId);
@@ -111,10 +118,20 @@ public class MockInterviewService {
         MockInterview interview = interviewOpt.get();
         MockInterviewQuestion question = questionOpt.get();
 
+        // Verify the interview belongs to the student
+        if (!interview.getStudent().getClerkId().equals(clerkId)) {
+            throw new RuntimeException("Unauthorized: Interview does not belong to this student");
+        }
+
         // Check if answer already exists
         Optional<MockInterviewAnswer> existingAnswer = answerRepository.findByQuestion(question);
         if (existingAnswer.isPresent()) {
             throw new RuntimeException("Answer already submitted for this question");
+        }
+
+        // Validate student answer
+        if (studentAnswer == null || studentAnswer.trim().isEmpty()) {
+            throw new RuntimeException("Student answer cannot be empty");
         }
 
         // Generate AI feedback and scoring
@@ -127,16 +144,18 @@ public class MockInterviewService {
         answer.setScoreObtained((Integer) feedbackData.get("score"));
         answer.setAiAnalysis((String) feedbackData.get("analysis"));
         answer.setSuggestions((String) feedbackData.get("suggestions"));
+        answer.setSubmittedAt(LocalDateTime.now());
 
         MockInterviewAnswer savedAnswer = answerRepository.save(answer);
 
-        // Update interview score
+        // Update interview score - get fresh list before calculating
         List<MockInterviewAnswer> allAnswers = answerRepository.findByInterview(interview);
-        int totalScore = allAnswers.stream().mapToInt(MockInterviewAnswer::getScoreObtained).sum();
-        int averageScore = totalScore / Math.max(1, allAnswers.size());
-        interview.setScore(averageScore);
-
-        mockInterviewRepository.save(interview);
+        if (!allAnswers.isEmpty()) {
+            int totalScore = allAnswers.stream().mapToInt(MockInterviewAnswer::getScoreObtained).sum();
+            int averageScore = totalScore / allAnswers.size();
+            interview.setScore(averageScore);
+            mockInterviewRepository.save(interview);
+        }
 
         return convertAnswerToDTO(savedAnswer);
     }
@@ -151,6 +170,12 @@ public class MockInterviewService {
         }
 
         MockInterview interview = interviewOpt.get();
+        
+        // Verify the interview belongs to the student
+        if (!interview.getStudent().getClerkId().equals(clerkId)) {
+            throw new RuntimeException("Unauthorized: Interview does not belong to this student");
+        }
+
         List<MockInterviewQuestion> questions = questionRepository.findByInterview(interview);
         List<MockInterviewAnswer> answers = answerRepository.findByInterview(interview);
 
@@ -185,6 +210,12 @@ public class MockInterviewService {
         }
 
         MockInterview interview = interviewOpt.get();
+        
+        // Verify the interview belongs to the student
+        if (!interview.getStudent().getClerkId().equals(clerkId)) {
+            throw new RuntimeException("Unauthorized: Interview does not belong to this student");
+        }
+
         List<MockInterviewQuestion> questions = questionRepository.findByInterview(interview);
         List<MockInterviewAnswer> answers = answerRepository.findByInterview(interview);
 
@@ -349,7 +380,7 @@ public class MockInterviewService {
         dto.setScoreObtained(answer.getScoreObtained());
         dto.setAiAnalysis(answer.getAiAnalysis());
         dto.setSuggestions(answer.getSuggestions());
-        dto.setSubmittedAt(answer.getSubmittedAt());
+        dto.setSubmittedAt(answer.getSubmittedAt() != null ? answer.getSubmittedAt().toString() : "");
         return dto;
     }
 }

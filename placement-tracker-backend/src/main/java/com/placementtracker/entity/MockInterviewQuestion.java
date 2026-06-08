@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "mock_interview_questions")
@@ -26,5 +27,6 @@ public class MockInterviewQuestion {
     private String expectedAnswer;
     private Integer difficulty; // 1-5
 
-    private Long createdAt = System.currentTimeMillis();
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }

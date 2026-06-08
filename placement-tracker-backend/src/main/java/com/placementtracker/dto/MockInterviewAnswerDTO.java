@@ -15,5 +15,5 @@ public class MockInterviewAnswerDTO {
     private Integer scoreObtained;
     private String aiAnalysis;
     private String suggestions;
-    private Long submittedAt;
+    private String submittedAt;
 }
