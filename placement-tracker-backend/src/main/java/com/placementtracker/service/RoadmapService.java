@@ -433,6 +433,99 @@ public class RoadmapService {
         return phases;
     }
     
+    /**
+     * Generate phases for DevOps Engineering
+     */
+    private List<RoadmapPhaseDTO> generateDevOpsPhases(String skillLevel) {
+        List<RoadmapPhaseDTO> phases = new ArrayList<>();
+        
+        // Phase 1: Linux & System Administration
+        phases.add(createPhase(
+            "Linux & System Administration",
+            "Master Linux systems and administration",
+            4,
+            1,
+            Arrays.asList(
+                createTopic(null, "Linux Fundamentals", "Linux", "File systems, permissions, user management", "high"),
+                createTopic(null, "Shell Scripting", "Linux", "Bash scripting, automation", "high"),
+                createTopic(null, "Package Management", "Linux", "APT, YUM, software installation", "high"),
+                createTopic(null, "User & Access Control", "Linux", "Sudo, SSH, security hardening", "high")
+            )
+        ));
+        
+        // Phase 2: Version Control & Collaboration
+        phases.add(createPhase(
+            "Version Control & Collaboration",
+            "Master Git and collaboration tools",
+            3,
+            2,
+            Arrays.asList(
+                createTopic(null, "Git Basics", "VCS", "Repositories, commits, branches", "high"),
+                createTopic(null, "Branching Strategies", "VCS", "GitFlow, trunk-based development", "high"),
+                createTopic(null, "GitHub/GitLab", "VCS", "Pull requests, code review, collaboration", "high")
+            )
+        ));
+        
+        // Phase 3: Containerization & Orchestration
+        phases.add(createPhase(
+            "Containerization & Orchestration",
+            "Learn Docker and container orchestration",
+            5,
+            3,
+            Arrays.asList(
+                createTopic(null, "Docker Basics", "Containers", "Images, containers, registries", "high"),
+                createTopic(null, "Docker Compose", "Containers", "Multi-container applications", "high"),
+                createTopic(null, "Kubernetes Basics", "Orchestration", "Pods, deployments, services", "high"),
+                createTopic(null, "Kubernetes Advanced", "Orchestration", "StatefulSets, operators, helm", "high"),
+                createTopic(null, "Container Security", "Security", "Image scanning, runtime security", "medium")
+            )
+        ));
+        
+        // Phase 4: CI/CD & Automation
+        phases.add(createPhase(
+            "CI/CD & Automation",
+            "Implement continuous integration and deployment",
+            4,
+            4,
+            Arrays.asList(
+                createTopic(null, "GitHub Actions", "CI/CD", "Workflows, runners, automation", "high"),
+                createTopic(null, "Jenkins", "CI/CD", "Pipeline setup and management", "high"),
+                createTopic(null, "GitLab CI/CD", "CI/CD", "Runners, pipelines, deployment", "high"),
+                createTopic(null, "Infrastructure Automation", "Automation", "Ansible, configuration management", "high")
+            )
+        ));
+        
+        // Phase 5: Infrastructure as Code & Monitoring
+        phases.add(createPhase(
+            "Infrastructure as Code & Monitoring",
+            "Automate infrastructure and monitor systems",
+            4,
+            5,
+            Arrays.asList(
+                createTopic(null, "Terraform", "IaC", "Infrastructure provisioning", "high"),
+                createTopic(null, "Prometheus & Grafana", "Monitoring", "Metrics collection and visualization", "high"),
+                createTopic(null, "ELK Stack", "Logging", "Log aggregation and analysis", "high"),
+                createTopic(null, "Alert Management", "Monitoring", "Alerts, incident management", "medium")
+            )
+        ));
+        
+        // Phase 6: Cloud Platforms & Advanced DevOps
+        phases.add(createPhase(
+            "Cloud Platforms & Advanced DevOps",
+            "Master cloud DevOps and advanced practices",
+            4,
+            6,
+            Arrays.asList(
+                createTopic(null, "AWS DevOps", "Cloud", "CodePipeline, CodeDeploy, CloudFormation", "high"),
+                createTopic(null, "Security & Compliance", "Security", "Secrets management, security policies", "high"),
+                createTopic(null, "Performance Optimization", "Optimization", "Scaling, performance tuning", "medium"),
+                createTopic(null, "Disaster Recovery", "Reliability", "Backup strategies, high availability", "high")
+            )
+        ));
+        
+        return phases;
+    }
+    
     // Helper methods
     
     private RoadmapPhaseDTO createPhase(String name, String description, Integer duration, Integer order, List<RoadmapTopicDTO> topics) {

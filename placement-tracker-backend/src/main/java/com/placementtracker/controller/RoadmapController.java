@@ -10,6 +10,7 @@ import com.placementtracker.service.RoadmapService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,18 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class RoadmapController {
+    
+    private static final List<String> VALID_DOMAINS = Arrays.asList(
+        "fullstack", "full-stack",
+        "ml", "machine-learning",
+        "cybersecurity", "cyber-security",
+        "cloud", "cloud-engineering",
+        "devops"
+    );
+    
+    private static final List<String> VALID_STATUSES = Arrays.asList(
+        "not-started", "in-progress", "completed"
+    );
     
     private final RoadmapService roadmapService;
     private final StudentRepository studentRepository;
@@ -42,6 +55,21 @@ public class RoadmapController {
             @RequestHeader("X-Clerk-ID") String clerkId,
             @PathVariable String domain) {
         try {
+            if (clerkId == null || clerkId.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "X-Clerk-ID header is required")
+                );
+            }
+
+            if (!VALID_DOMAINS.contains(domain.toLowerCase())) {
+                return ResponseEntity.status(400).body(
+                    java.util.Map.of(
+                        "error", "Unsupported domain: " + domain,
+                        "validDomains", VALID_DOMAINS
+                    )
+                );
+            }
+            
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
                 return ResponseEntity.status(404).body(
@@ -77,6 +105,27 @@ public class RoadmapController {
             @RequestHeader("X-Clerk-ID") String clerkId,
             @RequestParam String domain) {
         try {
+            if (clerkId == null || clerkId.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "X-Clerk-ID header is required")
+                );
+            }
+
+            if (domain == null || domain.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "Domain parameter is required")
+                );
+            }
+
+            if (!VALID_DOMAINS.contains(domain.toLowerCase())) {
+                return ResponseEntity.status(400).body(
+                    java.util.Map.of(
+                        "error", "Invalid domain: " + domain,
+                        "validDomains", VALID_DOMAINS
+                    )
+                );
+            }
+            
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
                 return ResponseEntity.status(404).body(
@@ -109,6 +158,12 @@ public class RoadmapController {
     public ResponseEntity<?> getCurrentDomain(
             @RequestHeader("X-Clerk-ID") String clerkId) {
         try {
+            if (clerkId == null || clerkId.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "X-Clerk-ID header is required")
+                );
+            }
+
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
                 return ResponseEntity.status(404).body(
@@ -170,6 +225,27 @@ public class RoadmapController {
             @PathVariable Long topicId,
             @RequestParam String status) {
         try {
+            if (clerkId == null || clerkId.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "X-Clerk-ID header is required")
+                );
+            }
+
+            if (status == null || status.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "Status parameter is required")
+                );
+            }
+
+            if (!VALID_STATUSES.contains(status.toLowerCase())) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of(
+                        "error", "Invalid status: " + status,
+                        "validStatuses", VALID_STATUSES
+                    )
+                );
+            }
+            
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
                 return ResponseEntity.status(404).body(
@@ -185,6 +261,14 @@ public class RoadmapController {
             }
             
             RoadmapTopic t = topic.get();
+            
+            // Verify the topic belongs to this student
+            if (!t.getStudent().getId().equals(student.get().getId())) {
+                return ResponseEntity.status(403).body(
+                    java.util.Map.of("error", "Unauthorized: Topic does not belong to this student")
+                );
+            }
+            
             t.setStatus(status);
             
             if ("completed".equalsIgnoreCase(status)) {
@@ -197,7 +281,19 @@ public class RoadmapController {
             
             roadmapTopicRepository.save(t);
             
-            log.info("Updated topic {} status to {}", topicId, status);
+            log.info("Updated topic {} status to {} for student {}", topicId, status, student.get().getId());
+            return ResponseEntity.ok(java.util.Map.of(
+                "message", "Topic status updated",
+                "topicId", topicId,
+                "status", status
+            ));
+        } catch (Exception e) {
+            log.error("Error updating topic status: ", e);
+            return ResponseEntity.status(500).body(
+                java.util.Map.of("error", "Failed to update status: " + e.getMessage())
+            );
+        }
+    }
             return ResponseEntity.ok(java.util.Map.of(
                 "message", "Topic status updated",
                 "topicId", topicId,
@@ -219,6 +315,12 @@ public class RoadmapController {
     public ResponseEntity<?> getRoadmapProgress(
             @RequestHeader("X-Clerk-ID") String clerkId) {
         try {
+            if (clerkId == null || clerkId.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "X-Clerk-ID header is required")
+                );
+            }
+
             Optional<Student> student = studentRepository.findByClerkId(clerkId);
             if (student.isEmpty()) {
                 return ResponseEntity.status(404).body(
@@ -226,7 +328,7 @@ public class RoadmapController {
                 );
             }
             
-            if (student.get().getDomain() == null) {
+            if (student.get().getDomain() == null || student.get().getDomain().isEmpty()) {
                 return ResponseEntity.ok(java.util.Map.of(
                     "domain", "not-set",
                     "completionPercentage", 0,
