@@ -174,7 +174,7 @@ public class MockInterviewController {
 
         try {
             if (clerkId == null || clerkId.isEmpty()) {
-                return ResponseEntity.badRequest().body(List.of());
+                return ResponseEntity.badRequest().body(List.<MockInterviewDTO>of());
             }
 
             List<MockInterviewDTO> history = mockInterviewService.getInterviewHistory(clerkId);
