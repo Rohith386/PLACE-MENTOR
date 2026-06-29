@@ -552,6 +552,7 @@ public class RoadmapService {
             case "ml", "machine-learning" -> generateMLPhases(skillLevel);
             case "cybersecurity", "cyber-security" -> generateCybersecurityPhases(skillLevel);
             case "cloud", "cloud-engineering" -> generateCloudPhases(skillLevel);
+            case "devops" -> generateDevOpsPhases(skillLevel);
             default -> new ArrayList<>();
         };
     }
