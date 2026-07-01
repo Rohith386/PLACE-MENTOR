@@ -294,18 +294,6 @@ public class RoadmapController {
             );
         }
     }
-            return ResponseEntity.ok(java.util.Map.of(
-                "message", "Topic status updated",
-                "topicId", topicId,
-                "status", status
-            ));
-        } catch (Exception e) {
-            log.error("Error updating topic status: ", e);
-            return ResponseEntity.status(500).body(
-                java.util.Map.of("error", "Failed to update status: " + e.getMessage())
-            );
-        }
-    }
     
     /**
      * Get roadmap progress for current domain
