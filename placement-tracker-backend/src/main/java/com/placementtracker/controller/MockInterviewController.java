@@ -25,7 +25,7 @@ public class MockInterviewController {
     @PostMapping("/start")
     public ResponseEntity<Map<String, Object>> startInterview(
             @RequestHeader("X-Clerk-ID") String clerkId,
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, String> request) { 
         log.info("Starting interview for student: {}, type: {}", clerkId, request.get("type"));
 
         try {

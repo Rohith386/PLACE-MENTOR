@@ -9,6 +9,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO {
+    public static StudentDTO empty() {
+        StudentDTO dto = new StudentDTO();
+        dto.setFirstName("");
+        dto.setLastName("");
+        dto.setEmail("");
+        dto.setBranch("");
+        dto.setYear(0);
+        dto.setSkillLevel("beginner");
+        dto.setLeetcodeUsername("");
+        dto.setCodeforcesUsername("");
+        dto.setGithubUsername("");
+        dto.setReadinessScore(0);
+        dto.setTopicsCompleted(0);
+        dto.setProblemsSolved(0);
+        dto.setMockInterviews(0);
+        dto.setDomain("");
+        return dto;
+    }
     private Long id;
     private String firstName;
     private String lastName;

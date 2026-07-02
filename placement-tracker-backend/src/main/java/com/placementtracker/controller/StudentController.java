@@ -18,19 +18,31 @@ public class StudentController {
 
     @GetMapping("/profile")
     public ResponseEntity<StudentDTO> getProfile(@RequestHeader("X-Clerk-ID") String clerkId) {
+        if (clerkId == null || clerkId.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         StudentDTO student = studentService.getStudentProfile(clerkId);
-        return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
+        if (student != null) {
+            return ResponseEntity.ok(student);
+        }
+
+        return ResponseEntity.ok(StudentDTO.empty());
     }
 
     @PostMapping("/profile")
     public ResponseEntity<StudentDTO> createProfile(
             @RequestHeader("X-Clerk-ID") String clerkId,
             @RequestBody StudentDTO studentDTO) {
+        if (clerkId == null || clerkId.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         StudentDTO created = studentService.createOrUpdateStudent(
             clerkId,
-            studentDTO.getEmail(),
-            studentDTO.getFirstName(),
-            studentDTO.getLastName()
+            studentDTO != null ? studentDTO.getEmail() : "",
+            studentDTO != null ? studentDTO.getFirstName() : "",
+            studentDTO != null ? studentDTO.getLastName() : ""
         );
         return ResponseEntity.ok(created);
     }
@@ -39,13 +51,33 @@ public class StudentController {
     public ResponseEntity<StudentDTO> updateProfile(
             @RequestHeader("X-Clerk-ID") String clerkId,
             @RequestBody StudentDTO studentDTO) {
+        if (clerkId == null || clerkId.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         StudentDTO updated = studentService.updateProfile(clerkId, studentDTO);
-        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.ok(StudentDTO.empty());
     }
 
     @GetMapping("/progress")
     public ResponseEntity<StudentDTO> getProgress(@RequestHeader("X-Clerk-ID") String clerkId) {
+        if (clerkId == null || clerkId.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         StudentDTO student = studentService.getStudentProfile(clerkId);
-        return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
+        return student != null ? ResponseEntity.ok(student) : ResponseEntity.ok(StudentDTO.empty());
+    }
+
+    @PostMapping("/progress")
+    public ResponseEntity<StudentDTO> updateProgress(
+            @RequestHeader("X-Clerk-ID") String clerkId,
+            @RequestBody StudentDTO studentDTO) {
+        if (clerkId == null || clerkId.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        StudentDTO updated = studentService.updateProfile(clerkId, studentDTO);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.ok(StudentDTO.empty());
     }
 }
