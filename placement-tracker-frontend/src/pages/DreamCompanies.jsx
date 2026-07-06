@@ -56,14 +56,14 @@ export default function DreamCompanies() {
     }
   }
 
-
-  r  const probabilityData = selectedCompanies.map(c => ({
+  const probabilityData = selectedCompanies.map(c => ({
     name: c.name,
     value: c.probability || 0
   }))
 
   if (loading) return <div className="text-center py-12">Loading companies...</div>
-eturn (
+
+  return (
     <div className="space-y-6">
       <div className="bg-pink-50 border-l-4 border-pink-500 p-6 rounded">
         <h1 className="text-2xl font-bold text-pink-900">Dream Companies</h1>
