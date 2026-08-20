@@ -41,283 +41,325 @@ PLACEMENT TRACKER 1/
 └── API_DOCUMENTATION.md
 ```
 
-## Installation Steps
+# 🚀 PLACE-MENTOR
 
-### Step 1: Clone/Extract Project
-All files are already created in the workspace.
+An AI-powered placement preparation platform designed to help students track their coding progress,
+prepare for dream companies, and improve their interview readiness through personalized roadmaps and analytics.
 
-### Step 2: Frontend Installation
+---
+
+## 📌 Features
+
+### 👤 User Management
+- User Registration & Login
+- Secure Authentication
+- Profile Management
+
+### 📊 Progress Tracking
+- Track coding progress
+- Monitor solved DSA problems
+- Visual progress dashboard
+- Performance analytics
+
+### 🎯 Company Preparation
+- Select dream company
+- Personalized preparation roadmap
+- Company-wise interview preparation
+- Topic-wise progress tracking
+
+### 🤖 AI Features
+- AI-powered mock interview assistance
+- Intelligent preparation recommendations
+- Personalized learning suggestions
+
+### 📅 Roadmap
+- Beginner to Advanced learning roadmap
+- DSA topic tracking
+- Backend Development roadmap
+- Interview preparation checklist
+
+---
+
+# 🏗️ System Architecture
+
+```
+                React Frontend
+                      │
+                      │ REST API
+                      ▼
+           Spring Boot Backend
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+ Spring Data JPA             Authentication
+        │
+        ▼
+      MySQL Database
+```
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- Axios
+
+## Backend
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- REST APIs
+- Maven
+
+## Database
+- MySQL
+
+## Tools
+- Git
+- GitHub
+- Postman
+- VS Code
+
+---
+
+# 📂 Project Structure
+
+```
+placement-tracker-backend
+│
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+├── config
+├── ai
+└── resources
+
+placement-tracker-frontend
+│
+├── components
+├── pages
+├── hooks
+├── services
+├── store
+└── assets
+```
+
+---
+
+# 📌 Key Functionalities
+
+✔ User Authentication
+
+✔ CRUD Operations
+
+✔ Progress Tracking
+
+✔ Personalized Dashboard
+
+✔ Company Preparation Roadmap
+
+✔ Dream Company Selection
+
+✔ AI Mock Interview Support
+
+✔ REST API Integration
+
+✔ Responsive UI
+
+---
+
+# 📷 Screenshots
+
+## Dashboard
+
+> <img width="1888" height="936" alt="image" src="https://github.com/user-attachments/assets/f9468475-a3c3-49f6-a988-f472f4480bf8" />
+> <img width="1850" height="746" alt="image" src="https://github.com/user-attachments/assets/a2f0b368-86d2-4308-8ddd-35af99b452e8" />
+
+
+
+---
+
+## Roadmap
+
+> <img width="1916" height="940" alt="image" src="https://github.com/user-attachments/assets/ad1233aa-089d-4205-97c7-9f3b60d14702" />
+
+
+---
+
+## Progress Analytics
+
+> <img width="1900" height="912" alt="image" src="https://github.com/user-attachments/assets/2f40f2a7-d24c-4c45-88cb-6a5ab2d06ee1" />
+
+
+---
+
+## Profile Page
+
+> <img width="1919" height="930" alt="image" src="https://github.com/user-attachments/assets/9b93e651-5503-4962-b533-bf851e0738a5" />
+
+## Mock Interview Page
+
+> <img width="1915" height="817" alt="image" src="https://github.com/user-attachments/assets/8271a315-c6ea-401d-9bb7-4ff98a5660aa" />
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Rohith386/PLACE-MENTOR.git
+```
+
+### Backend
+
+```bash
+cd placement-tracker-backend
+```
+
+Install dependencies
+
+```bash
+mvn clean install
+```
+
+Run
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+### Frontend
 
 ```bash
 cd placement-tracker-frontend
+```
+
+Install dependencies
+
+```bash
 npm install
 ```
 
-Create `.env.local`:
-```
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_bmVlZGVkLWRvZy0wLmNsZXJrLmFjY291bnRzLmRldiQ
-VITE_API_URL=http://localhost:8080/api
-```
+Run
 
-Start frontend:
 ```bash
 npm run dev
 ```
 
-### Step 3: Backend Installation
+---
 
-### Prerequisites
-- Java 17 JDK
-- Maven 3.6+
-- MySQL 8.0+
+# 🗄️ Database Configuration
 
-### MySQL Setup
+Update `application.properties`
 
-1. Install MySQL if not already installed
-2. Create database and schema:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/placement_tracker
 
-```bash
-mysql -u root -p
+spring.datasource.username=root
+
+spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
 ```
 
-Then execute:
-```sql
-CREATE DATABASE placement_tracker;
-USE placement_tracker;
--- Run schema.sql content
+---
+
+# 📡 REST APIs
+
+## Authentication
+
+```
+POST /api/auth/register
+
+POST /api/auth/login
 ```
 
-Or import schema file:
-```bash
-mysql -u root -p placement_tracker < placement-tracker-backend/src/main/resources/schema.sql
+## User
+
+```
+GET /api/users
+
+PUT /api/users/{id}
+
+DELETE /api/users/{id}
 ```
 
-### Update Backend Configuration
+## Progress
 
-Edit `placement-tracker-backend/src/main/resources/application.yml`:
+```
+GET /api/progress
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/placement_tracker
-    username: root
-    password: your_mysql_password
+POST /api/progress
+
+PUT /api/progress/{id}
 ```
 
-### Build and Run Backend
+## Roadmap
 
-```bash
-cd placement-tracker-backend
-mvn clean install
-mvn spring-boot:run
+```
+GET /api/roadmap
+
+POST /api/roadmap
 ```
 
-Backend will start at `http://localhost:8080`
+---
 
-## ✅ Verification
+# 🎯 Future Enhancements
 
-### Frontend Health Check
-- Open http://localhost:3000
-- Should see login page with Clerk authentication
-- Try signing up with test account
+- AI Resume Analyzer
+- LeetCode API Integration
+- GitHub API Integration
+- Coding Contest Tracker
+- Resume Builder
+- Company Interview Experience Sharing
+- Email Notifications
+- Docker Deployment
+- AWS Deployment
+- JWT Authentication
+- Admin Dashboard
 
-### Backend Health Check
-```bash
-curl http://localhost:8080/api/companies
-```
+---
 
-Should return list of companies.
+# 📈 Learning Outcomes
 
-## 🤖 Agentic AI Features
+This project helped me gain hands-on experience with:
 
-The system includes an Agentic AI Virtual Guide that:
+- Java
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- REST API Development
+- MySQL Database Design
+- React
+- Tailwind CSS
+- Layered Architecture
+- Exception Handling
+- Git & GitHub
 
-1. **Analyzes Progress**
-   - Tracks all preparation areas
-   - Calculates readiness score
-   - Identifies weak areas
+---
 
-2. **Generates Recommendations**
-   - Next topics to study
-   - Practice problems to solve
-   - Projects to build
-   - When to take mock interviews
+# 👨‍💻 Author
 
-3. **Dynamic Probability**
-   - Calculates company crack chances
-   - Updates based on readiness score
-   - Considers mock interview performance
-   - Weighted algorithm for accuracy
+**Rohith K**
 
-4. **Motivation System**
-   - Context-aware messages
-   - Performance-based insights
-   - Celebration of milestones
-   - Adaptive encouragement
+Aspiring Software Engineer
 
-5. **Daily Goals**
-   - Personalized action items
-   - Adaptive based on progress
-   - Prioritized recommendations
+- Java Backend Developer
+- Spring Boot Developer
+- DSA Enthusiast
 
-## 📱 Core Features
+GitHub: https://github.com/Rohith386
 
-### 1. Dashboard
-- Overall preparation readiness score
-- Progress by category (DSA, CS, Projects, etc.)
-- Recent achievements
-- AI recommendations
-- Weekly progress trends
-
-### 2. Personalized Roadmap
-- Auto-generated learning path
-- Adaptive based on progress
-- Categories: DSA, CS Fundamentals, Projects, Aptitude, Soft Skills
-- Topic tracking with completion status
-- Priority indicators
-
-### 3. Dream Companies
-- Select target companies
-- View company-specific questions
-- Dynamic probability calculator
-- Interview pattern insights
-- Past interview analysis
-
-### 4. Mock Interview System
-- AI-powered interviews
-- Types: DSA, Behavioral, HR
-- Real-time feedback
-- Strengths & improvement areas
-- Score tracking
-
-### 5. Progress Tracking
-- Visual charts and graphs
-- Topics completed count
-- Problems solved
-- Mock interview history
-- Overall readiness percentage
-
-### 6. AI Recommendations
-- What to study next
-- Priority-based suggestions
-- Motivational messages
-- Daily goals
-
-## 🔑 Clerk Authentication
-
-The app uses Clerk AI for secure authentication:
-
-**Publishable Key:** `pk_test_bmVlZGVkLWRvZy0wLmNsZXJrLmFjY291bnRzLmRldiQ`
-
-This key is already configured in the frontend `.env.local`.
-
-## 📊 Database Overview
-
-### Tables Created
-1. **students** - User profiles
-2. **companies** - Company data
-3. **student_companies** - Dream company selections
-4. **roadmap_topics** - Learning roadmap
-5. **mock_interviews** - Interview history
-
-### Pre-populated Data
-- 8 major companies (Google, Amazon, Microsoft, etc.)
-- DSA topic roadmap
-- Sample CS fundamentals topics
-
-## 🚀 Running Everything
-
-### Terminal 1 - Frontend
-```bash
-cd placement-tracker-frontend
-npm run dev
-```
-Runs on: http://localhost:3000
-
-### Terminal 2 - Backend
-```bash
-cd placement-tracker-backend
-mvn spring-boot:run
-```
-Runs on: http://localhost:8080
-
-### Terminal 3 - MySQL (if not running as service)
-```bash
-mysql -u root -p
-```
-
-## 📝 API Endpoints
-
-### Student APIs
-- `GET /api/students/profile` - Get profile
-- `POST /api/students/profile` - Create profile
-- `PUT /api/students/profile` - Update profile
-- `GET /api/students/progress` - Get progress
-
-### Company APIs
-- `GET /api/companies` - List all companies
-- `GET /api/companies/{id}` - Get company details
-
-### AI APIs
-- `GET /api/ai/recommendations` - Get recommendations
-- `GET /api/ai/motivation` - Get motivational message
-- `GET /api/ai/daily-goals` - Get daily goals
-
-### Roadmap APIs
-- `GET /api/roadmap` - Get student roadmap
-- `PUT /api/roadmap/{topicId}` - Update topic progress
-
-### Mock Interview APIs
-- `POST /api/mock-interview/start` - Start interview
-- `POST /api/mock-interview/{id}/submit` - Submit answer
-- `GET /api/mock-interview/{id}/feedback` - Get feedback
-
-## 🔒 Security
-
-- Clerk AI authentication
-- CORS configured for localhost:3000
-- Spring Security enabled
-- JWT token-based API calls
-
-## 🎯 Next Steps
-
-1. ✅ Complete setup steps above
-2. ✅ Create a test student account
-3. ✅ Set up dream companies
-4. ✅ Start practicing with mock interviews
-5. ✅ Track progress on dashboard
-
-## 📖 Documentation Files
-
-- `SETUP_GUIDE.md` - Installation and setup
-- `DATABASE_SCHEMA.md` - Database structure
-- `API_DOCUMENTATION.md` - API endpoints and usage
-- Frontend `README.md` - React-specific setup
-- Backend `README.md` - Spring Boot-specific setup
-
-## 🆘 Troubleshooting
-
-### Frontend won't connect to backend
-- Check if backend is running on port 8080
-- Verify CORS is enabled
-- Check browser console for errors
-
-### Backend won't start
-- Verify MySQL is running
-- Check database credentials in application.yml
-- Ensure Java 17+ is installed
-
-### Mock interviews not loading
-- Check that backend AI service is initialized
-- Verify student profile is complete
-
-## 💡 Key Technologies
-
-- **Frontend**: React 18, Vite, Tailwind CSS, Recharts
-- **Backend**: Spring Boot 3.1.5, Spring Data JPA
-- **Database**: MySQL 8.0+
-- **Authentication**: Clerk AI
-- **AI**: Agentic AI for recommendations
+LinkedIn: https://www.linkedin.com/in/rohith-ka1b2c3
 
 ---
 
