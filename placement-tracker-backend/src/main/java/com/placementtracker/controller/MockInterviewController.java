@@ -142,7 +142,7 @@ public class MockInterviewController {
      * GET /mock-interview/{interviewId}/feedback
      */
     @GetMapping("/{interviewId}/feedback")
-    public ResponseEntity<MockInterviewDTO> getInterviewFeedback(
+    public ResponseEntity<?> getInterviewFeedback(
             @RequestHeader("X-Clerk-ID") String clerkId,
             @PathVariable Long interviewId) {
         log.info("Getting feedback for interview: {}", interviewId);
